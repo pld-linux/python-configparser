@@ -8,7 +8,7 @@ Summary:	Updated configparser from Python 3.5 to Python 2
 Summary(pl.UTF-8):	Uaktualniony configparser z Pythona 3.5 do Pythona 2
 Name:		python-configparser
 Version:	3.5.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.python.org/simple/configparser/
