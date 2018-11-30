@@ -14,6 +14,8 @@ Group:		Libraries/Python
 #Source0Download: https://pypi.python.org/simple/configparser/
 Source0:	https://files.pythonhosted.org/packages/source/c/configparser/configparser-%{version}.tar.gz
 # Source0-md5:	cfdd915a5b7a6c09917a64a573140538
+# https://bitbucket.org/ambv/configparser/issues/21/configparser-should-not-declare-a
+Patch0:		backports-dont-use-setuptools-namespace.patch
 URL:		https://pypi.python.org/pypi/configparser
 %if %{with python2}
 BuildRequires:	python >= 1:2.6
@@ -62,6 +64,7 @@ bezpośrednio w Pythonie 2.6 - 3.5.
 
 %prep
 %setup -q -n configparser-%{version}
+%patch0 -p1
 
 %build
 %if %{with python2}
@@ -80,19 +83,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %py_postclean
 
-# pth file is for both import versions to work on python2: "import configparser" and "from backports import configparser"
-# but doing that with pth code hacks bereaks other ptyhon-backports packages.
-rm -f $RPM_BUILD_ROOT%{py_sitescriptdir}/configparser-%{version}-py*-nspkg.pth
-# so intead of pth hacks we symlink module which is not exactly the same behaviour but is good enough for us
+# https://bitbucket.org/ambv/configparser/issues/21/configparser-should-not-declare-a
+# hack for: import configparser and from backports import configparser to work
 ln -s ../../configparser.pyc $RPM_BUILD_ROOT%{py_sitescriptdir}/backports/configparser/
 ln -s ../../configparser.pyo $RPM_BUILD_ROOT%{py_sitescriptdir}/backports/configparser/
 %endif
 
 %if %{with python3}
 %py3_install
-
-# See note for python2. On python3 we rely on python-backports.spec infrastructure.
-rm -f $RPM_BUILD_ROOT%{py3_sitescriptdir}/configparser-%{version}-py*-nspkg.pth
 %endif
 
 %clean
