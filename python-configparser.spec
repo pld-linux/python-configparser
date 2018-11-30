@@ -8,7 +8,7 @@ Summary:	Updated configparser from Python 3.5 to Python 2
 Summary(pl.UTF-8):	Uaktualniony configparser z Pythona 3.5 do Pythona 2
 Name:		python-configparser
 Version:	3.5.0
-Release:	3
+Release:	4
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.python.org/simple/configparser/
@@ -80,15 +80,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %py_postclean
 
-# pth file is only for 'To use on Python 3 import from backports import configparser instead of the built-in version.'
-# so not needed on python2.
+# pth file is for both import versions to work on python2: "import configparser" and "from backports import configparser"
+# but doing that with pth code hacks bereaks other ptyhon-backports packages.
 rm -f $RPM_BUILD_ROOT%{py_sitescriptdir}/configparser-%{version}-py*-nspkg.pth
+# so intead of pth hacks we symlink module which is not exactly the same behaviour but is good enough for us
+ln -s ../../configparser.pyc $RPM_BUILD_ROOT%{py_sitescriptdir}/backports/configparser/
+ln -s ../../configparser.pyo $RPM_BUILD_ROOT%{py_sitescriptdir}/backports/configparser/
 %endif
 
 %if %{with python3}
 %py3_install
 
-# See note for python2 and on python3 it is also not needed because there is python-backports.spec infrastructure.
+# See note for python2. On python3 we rely on python-backports.spec infrastructure.
 rm -f $RPM_BUILD_ROOT%{py3_sitescriptdir}/configparser-%{version}-py*-nspkg.pth
 %endif
 
