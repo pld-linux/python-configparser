@@ -9,7 +9,7 @@ Summary:	Updated configparser from Python 3.7 to Python 2
 Summary(pl.UTF-8):	Uaktualniony configparser z Pythona 3.7 do Pythona 2
 Name:		python-configparser
 Version:	4.0.2
-Release:	1
+Release:	2
 License:	BSD
 Group:		Libraries/Python
 #Source0Download: https://pypi.org/simple/configparser/
