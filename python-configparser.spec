@@ -3,11 +3,12 @@
 %bcond_without	doc	# Sphinx documentation
 %bcond_without	tests	# do not perform "make test"
 %bcond_without	python2 # CPython 2.x module
-%bcond_with	python3 # CPython 3.x module (not needed for Python 3.7+)
+%bcond_with	python3 # CPython 3.x module (<5 not needed for Python 3.7+)
 
 Summary:	Updated configparser from Python 3.7 to Python 2
 Summary(pl.UTF-8):	Uaktualniony configparser z Pythona 3.7 do Pythona 2
 Name:		python-configparser
+# keep 4.x here for python2 support
 Version:	4.0.2
 Release:	3
 License:	BSD
@@ -112,6 +113,7 @@ Dokumentacja API modułu Pythona configparser.
 %endif
 
 %if %{with doc}
+# py3 needed for unicode
 sphinx-build-3 -b html docs docs/_build/html
 %endif
 
